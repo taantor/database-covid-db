@@ -6,6 +6,7 @@
     <title>Choropleth Map Example</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://leafletjs.com/examples/choropleth/us-states.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -22,6 +23,10 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
         }
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
         .legend {
             text-align: left;
             line-height: 18px;
@@ -37,8 +42,8 @@
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-
+    <?php include 'navbar.php' ?>
+    
     <div id="map"></div>
 
     <!-- Modal for Chart -->
@@ -115,6 +120,7 @@
                         fillOpacity: 0.7
                     });
 
+                    // Update info control
                     const stateProps = stateDataMap[feature.properties.name] || {};
                     info.update({ 
                         name: feature.properties.name,
@@ -128,11 +134,7 @@
                     info.update(); // Reset info
                 },
                 click: function(e) {
-                    // Get state name from the feature properties
-                    const stateName = feature.properties.name;
-                    
-                    // Fetch data for the selected state
-                    fetch(`chart_data.php?state=${encodeURIComponent(stateName)}`)
+                    fetch(`chart_data.php?state=${feature.properties.name}`)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
@@ -140,14 +142,12 @@
                             return response.json();
                         })
                         .then(graphData => {
-                            // Display the chart with the fetched data
                             displayChart(graphData.dates, graphData.cases, graphData.deaths);
                         })
                         .catch(error => {
                             console.error('Error fetching graph data:', error);
                         });
 
-                    // Show the chart modal
                     $('#chartModal').modal('show');
                 }
             });
@@ -172,33 +172,48 @@
 
         info.addTo(map);
 
-        let myChart;  // Declare myChart at the top to ensure it's in the correct scope
+        const legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'info legend');
+            const grades = []; // กำหนดเกรดสีที่ต้องการ
+            for (let i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+
+        legend.addTo(map);
+
+        let myChart; // ประกาศตัวแปรที่นี่
 
         function displayChart(dates, cases, deaths) {
             const ctx = document.getElementById('myChart').getContext('2d');
-            
+
             if (myChart) {
-                myChart.destroy(); // ถ้ามีกราฟอยู่แล้ว ให้ทำลายกราฟเดิมก่อน
-            } 
+                myChart.destroy(); // หากกราฟมีอยู่แล้ว ให้ทำลายก่อนสร้างใหม่
+            }
 
             myChart = new Chart(ctx, {
-                type: 'bar',  // ประเภทของกราฟเป็น bar
+                type: 'line',
                 data: {
                     labels: dates,
                     datasets: [
                         {
                             label: 'Cases',
                             data: cases,
-                            backgroundColor: 'rgba(255, 99, 132, 0.9)',  // สีของกราฟ
                             borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            fill: true,
                         },
                         {
                             label: 'Deaths',
                             data: deaths,
-                            backgroundColor: 'rgba(54, 162, 235, 0.9)', // สีของกราฟ
                             borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            fill: true,
                         }
                     ]
                 },
@@ -222,7 +237,6 @@
                 }
             });
         }
-
     </script>
 </body>
 </html>
