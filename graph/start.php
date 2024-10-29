@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
-        #map { width: 100%; height: 630px; margin: 0 auto; }
+        #map { width: 100%; height: 90vh; margin: 0 auto; }
         body { font-family: Arial, sans-serif; }
         .info {
             padding: 10px 12px;
