@@ -9,18 +9,18 @@
     <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        #countrySelect {
-            width: 15%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            margin-bottom: 20px;
-        }
+    #countrySelect {
+        width: 15%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        margin-bottom: 20px;
+    }
 
-        .graph-contain {
-            margin-top: 20px;
-        }
+    .graph-contain {
+        margin-top: 20px;
+    }
     </style>
 </head>
 
@@ -50,108 +50,107 @@
             <canvas id="maskUseChart" width="100" height="50"></canvas>
 
             <script>
-                let chart;
+            let chart;
 
-                async function fetchMaskData(country = "") {
-                    let url = 'show_graph.php';
-                    if (country) {
-                        url += `?country=${country}`;
-                    }
-
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const data = await response.json();
-                    console.log(data);
-                    return data;
+            async function fetchMaskData(country = "") {
+                let url = 'show_graph.php';
+                if (country) {
+                    url += `?country=${country}`;
                 }
 
-                async function plotChart(country = "") {
-                    const maskData = await fetchMaskData(country);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log(data);
+                return data;
+            }
 
-                    if (maskData.length === 0) {
-                        alert("No data available for the selected country.");
-                        return;
-                    }
+            async function plotChart(country = "") {
+                const maskData = await fetchMaskData(country);
 
-                    const ctx = document.getElementById('maskUseChart').getContext('2d');
+                if (maskData.length === 0) {
+                    alert("No data available for the selected country.");
+                    return;
+                }
 
-                    if (chart) {
-                        chart.destroy();
-                    }
+                const ctx = document.getElementById('maskUseChart').getContext('2d');
 
-                    const labels = country ? [maskData[0].countyfp] : maskData.map(item => item.countyfp);
-                    const neverData = maskData.map(item => parseFloat(item.never));
-                    const rarelyData = maskData.map(item => parseFloat(item.rarely));
-                    const sometimesData = maskData.map(item => parseFloat(item.sometimes));
-                    const frequentlyData = maskData.map(item => parseFloat(item.frequently));
-                    const alwaysData = maskData.map(item => parseFloat(item.always));
+                if (chart) {
+                    chart.destroy();
+                }
 
-                    chart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [
-                                {
-                                    label: 'Never',
-                                    data: neverData,
-                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                                    borderColor: 'rgba(255, 99, 132, 0)',
-                                },
-                                {
-                                    label: 'Rarely',
-                                    data: rarelyData,
-                                    backgroundColor: 'rgba(230, 100, 255, 0.5)',
-                                    borderColor: 'rgba(230, 100, 255, 0)',
-                                },
-                                {
-                                    label: 'Sometimes',
-                                    data: sometimesData,
-                                    backgroundColor: 'rgba(112, 112, 255, 0.5)',
-                                    borderColor: 'rgba(112, 112, 255, 0)',
-                                },
-                                {
-                                    label: 'Frequently',
-                                    data: frequentlyData,
-                                    backgroundColor: 'rgba(246, 255, 100, 0.5)',
-                                    borderColor: 'rgba(246, 255, 100, 0)',
-                                },
-                                {
-                                    label: 'Always',
-                                    data: alwaysData,
-                                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
-                                    borderColor: 'rgba(75, 192, 192, 1)',
-                                }
-                            ]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
+                const labels = country ? [maskData[0].countyfp] : maskData.map(item => item.countyfp);
+                const neverData = maskData.map(item => parseFloat(item.never));
+                const rarelyData = maskData.map(item => parseFloat(item.rarely));
+                const sometimesData = maskData.map(item => parseFloat(item.sometimes));
+                const frequentlyData = maskData.map(item => parseFloat(item.frequently));
+                const alwaysData = maskData.map(item => parseFloat(item.always));
+
+                chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                                label: 'Never',
+                                data: neverData,
+                                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                borderColor: 'rgba(255, 99, 132, 0)',
                             },
-                            barPercentage: 1.0,
-                            categoryPercentage: 1.0
-                        }
-                    });
-                }
-
-                function updateChart() {
-                    const selectedCountry = document.getElementById('countrySelect').value;
-                    plotChart(selectedCountry);
-                }
-
-                document.addEventListener("DOMContentLoaded", async function() {
-                    const countrySelect = document.getElementById('countrySelect');
-                    if (countrySelect.options.length > 1) {
-                        const firstCountry = countrySelect.options[1].value;
-                        countrySelect.value = firstCountry;
-                        plotChart(firstCountry);
-                    } else {
-                        plotChart("");
+                            {
+                                label: 'Rarely',
+                                data: rarelyData,
+                                backgroundColor: 'rgba(230, 100, 255, 0.5)',
+                                borderColor: 'rgba(230, 100, 255, 0)',
+                            },
+                            {
+                                label: 'Sometimes',
+                                data: sometimesData,
+                                backgroundColor: 'rgba(112, 112, 255, 0.5)',
+                                borderColor: 'rgba(112, 112, 255, 0)',
+                            },
+                            {
+                                label: 'Frequently',
+                                data: frequentlyData,
+                                backgroundColor: 'rgba(246, 255, 100, 0.5)',
+                                borderColor: 'rgba(246, 255, 100, 0)',
+                            },
+                            {
+                                label: 'Always',
+                                data: alwaysData,
+                                backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        barPercentage: 1.0,
+                        categoryPercentage: 1.0
                     }
                 });
+            }
+
+            function updateChart() {
+                const selectedCountry = document.getElementById('countrySelect').value;
+                plotChart(selectedCountry);
+            }
+
+            document.addEventListener("DOMContentLoaded", async function() {
+                const countrySelect = document.getElementById('countrySelect');
+                if (countrySelect.options.length > 1) {
+                    const firstCountry = countrySelect.options[1].value;
+                    countrySelect.value = firstCountry;
+                    plotChart(firstCountry);
+                } else {
+                    plotChart("");
+                }
+            });
             </script>
         </div>
     </div>

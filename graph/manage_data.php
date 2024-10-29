@@ -1,5 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <?php 
     include 'navbar.php'; 
@@ -23,28 +25,48 @@
                 <div class="col-md-3">
                     <label for="sort">เรียงลำดับโดย:</label>
                     <select name="sort" id="sort" class="custom-select">
-                        <option value="state" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'state') ? 'selected' : ''; ?>>ชื่อรัฐ</option>
-                        <option value="cases" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'cases') ? 'selected' : ''; ?>>จำนวนผู้ติดเชื้อ</option>
-                        <option value="deaths" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'deaths') ? 'selected' : ''; ?>>จำนวนผู้เสียชีวิต</option>
-                        <option value="date" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'date') ? 'selected' : ''; ?>>วันที่</option>
+                        <option value="state"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'state') ? 'selected' : ''; ?>>ชื่อรัฐ
+                        </option>
+                        <option value="cases"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'cases') ? 'selected' : ''; ?>>
+                            จำนวนผู้ติดเชื้อ</option>
+                        <option value="deaths"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'deaths') ? 'selected' : ''; ?>>
+                            จำนวนผู้เสียชีวิต</option>
+                        <option value="date"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'date') ? 'selected' : ''; ?>>วันที่
+                        </option>
                     </select>
                 </div>
-                
+
                 <div class="col-md-3">
                     <label for="order">ลำดับ:</label>
                     <select name="order" id="order" class="custom-select">
-                        <option value="ASC" <?php echo (isset($_GET['order']) && $_GET['order'] == 'ASC') ? 'selected' : ''; ?>>น้อยไปมาก</option>
-                        <option value="DESC" <?php echo (isset($_GET['order']) && $_GET['order'] == 'DESC') ? 'selected' : ''; ?>>มากไปน้อย</option>
+                        <option value="ASC"
+                            <?php echo (isset($_GET['order']) && $_GET['order'] == 'ASC') ? 'selected' : ''; ?>>
+                            น้อยไปมาก</option>
+                        <option value="DESC"
+                            <?php echo (isset($_GET['order']) && $_GET['order'] == 'DESC') ? 'selected' : ''; ?>>
+                            มากไปน้อย</option>
                     </select>
                 </div>
 
                 <div class="col-md-3">
                     <label for="limit">แสดง:</label>
                     <select name="limit" id="limit" class="custom-select">
-                        <option value="10" <?php echo (isset($_GET['limit']) && $_GET['limit'] == '10') ? 'selected' : ''; ?>>Top 10</option>
-                        <option value="20" <?php echo (isset($_GET['limit']) && $_GET['limit'] == '20') ? 'selected' : ''; ?>>Top 20</option>
-                        <option value="50" <?php echo (isset($_GET['limit']) && $_GET['limit'] == '50') ? 'selected' : ''; ?>>Top 50</option>
-                        <option value="all" <?php echo (isset($_GET['limit']) && $_GET['limit'] == 'all') ? 'selected' : ''; ?>>แสดงทั้งหมด</option>
+                        <option value="10"
+                            <?php echo (isset($_GET['limit']) && $_GET['limit'] == '10') ? 'selected' : ''; ?>>Top 10
+                        </option>
+                        <option value="20"
+                            <?php echo (isset($_GET['limit']) && $_GET['limit'] == '20') ? 'selected' : ''; ?>>Top 20
+                        </option>
+                        <option value="50"
+                            <?php echo (isset($_GET['limit']) && $_GET['limit'] == '50') ? 'selected' : ''; ?>>Top 50
+                        </option>
+                        <option value="all"
+                            <?php echo (isset($_GET['limit']) && $_GET['limit'] == 'all') ? 'selected' : ''; ?>>
+                            แสดงทั้งหมด</option>
                     </select>
                 </div>
             </div>
@@ -53,19 +75,23 @@
             <div class="form-row mt-4">
                 <div class="col-md-2">
                     <label for="cases_min">จำนวนผู้ติดเชื้อขั้นต่ำ:</label>
-                    <input type="number" name="cases_min" id="cases_min" class="form-control" placeholder="min" value="<?php echo isset($_GET['cases_min']) ? $_GET['cases_min'] : '0'; ?>">
+                    <input type="number" name="cases_min" id="cases_min" class="form-control" placeholder="min"
+                        value="<?php echo isset($_GET['cases_min']) ? $_GET['cases_min'] : '0'; ?>">
                 </div>
                 <div class="col-md-2">
                     <label for="cases_max">จำนวนผู้ติดเชื้อสูงสุด:</label>
-                    <input type="number" name="cases_max" id="cases_max" class="form-control" placeholder="max" value="<?php echo isset($_GET['cases_max']) ? $_GET['cases_max'] : '10000000'; ?>">
+                    <input type="number" name="cases_max" id="cases_max" class="form-control" placeholder="max"
+                        value="<?php echo isset($_GET['cases_max']) ? $_GET['cases_max'] : '10000000'; ?>">
                 </div>
                 <div class="col-md-2">
                     <label for="deaths_min">จำนวนผู้เสียชีวิตขั้นต่ำ:</label>
-                    <input type="number" name="deaths_min" id="deaths_min" class="form-control" placeholder="min" value="<?php echo isset($_GET['deaths_min']) ? $_GET['deaths_min'] : '0'; ?>">
+                    <input type="number" name="deaths_min" id="deaths_min" class="form-control" placeholder="min"
+                        value="<?php echo isset($_GET['deaths_min']) ? $_GET['deaths_min'] : '0'; ?>">
                 </div>
                 <div class="col-md-2">
                     <label for="deaths_max">จำนวนผู้เสียชีวิตสูงสุด:</label>
-                    <input type="number" name="deaths_max" id="deaths_max" class="form-control" placeholder="max" value="<?php echo isset($_GET['deaths_max']) ? $_GET['deaths_max'] : '10000000'; ?>">
+                    <input type="number" name="deaths_max" id="deaths_max" class="form-control" placeholder="max"
+                        value="<?php echo isset($_GET['deaths_max']) ? $_GET['deaths_max'] : '10000000'; ?>">
                 </div>
             </div>
 
@@ -171,4 +197,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
