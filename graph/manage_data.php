@@ -18,7 +18,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>รัฐ</th>
+                    <th>ชื่อรัฐ</th>
                     <th>จำนวนผู้ติดเชื้อ</th>
                     <th>จำนวนผู้เสียชีวิต</th>
                     <th>วันที่</th>
