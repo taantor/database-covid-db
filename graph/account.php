@@ -51,7 +51,7 @@ if (isset($_SESSION['email'])) {
         <p>First Name: <?php echo htmlspecialchars($firstName); ?></p>
         <p>Last Name: <?php echo htmlspecialchars($lastName); ?></p>
         <p>Email: <?php echo htmlspecialchars($email); ?></p>
-        <a href="/Login/register.php">
+        <a href="">
             <button>Log out</button>
         </a>
     </div>
