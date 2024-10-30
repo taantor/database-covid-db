@@ -29,7 +29,7 @@
     <?php include 'server.php'; ?>
     <div class="container">
         <h1>Dashboard</h1>
-        <p>สถิติการใส่แมสของแต่ละประเทศ</p>
+        <p>สถิติการใส่แมสจากผลการประเมิน FIPS</p>
         <!-- Dropdown for country selection -->
         <div class="graph-contain">
             <?php
@@ -38,9 +38,9 @@
 
             if ($result->rowCount() > 0) {
                 echo '<select id="countrySelect" onchange="updateChart()" class="form-control">';
-                echo '<option value="">เลือกประเทศ</option>';
+                echo '<option value="">All FIPS</option>';
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    echo '<option value="' . htmlspecialchars($row['countyfp']) . '">ประเทศ ' . htmlspecialchars($row['countyfp']) . '</option>';
+                    echo '<option value="' . htmlspecialchars($row['countyfp']) . '">FIPS ' . htmlspecialchars($row['countyfp']) . '</option>';
                 }
                 echo '</select>';
             } else {
