@@ -1,11 +1,11 @@
 <?php
 // connect.php
 
-$host = "localhost";
+$host = "dpg-csgrgojtq21c73duks8g-a.singapore-postgres.render.com";
 $port = "5432";
-$dbname = "login";
-$user = "postgres";
-$password = "053823989";
+$dbname = "covid_u35k";
+$user = "tor";
+$password = "HMd4Hhy5cPZnWCJqlPaJiRavgdm3H3IP";
 
 try {
     // ใช้ PDO ในการเชื่อมต่อกับ PostgreSQL
